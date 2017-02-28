@@ -3,15 +3,15 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
   Text,
   TextInput,
-  View
-} from 'react-native';
+  View,
+  Keyboard
+} from 'react-native'
 
 export default class ChineseTextInputIssue extends Component {
   constructor (props) {
@@ -26,12 +26,11 @@ export default class ChineseTextInputIssue extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.inputField}
+          value={this.state.text}
           placeholder="Type here to translate!"
-          onBlur={(evt) => console.log('onBlur event:', evt.nativeEvent.text)}
-          onChange={(evt) => console.log('onChange event:', evt.nativeEvent.text)}
-          onChangeText={(text) => this.setState({ text })}
-          onSubmitEditing={(evt) => console.log('onSubmitEditing event:', evt.nativeEvent.text)}
-          onEndEditing={(evt) => console.log('onEndEditing event:', evt.nativeEvent.text)} />
+          onChange={(evt) => this.setState({ text: evt.nativeEvent.text })}
+          onChangeText={(text) => setTimeout(() => {this.setState({ text: text })})}
+          onEndEditing={(evt) => this.setState({ text: evt.nativeEvent.text })} />
         <Text style={styles.previewText}>
           {this.state.text}
         </Text>
@@ -44,8 +43,6 @@ export default class ChineseTextInputIssue extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF'
   },
   inputField: {
